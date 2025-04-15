@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { SearchBar } from '../components/SearchBar';
 import { CartIcon } from '../components/CartIcon';
 import { NavBar } from '../components/NavBar';

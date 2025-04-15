@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, ActivityIndicator } from 'react-native';
 import { useLoader } from '../hooks/useLoader';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { withLoading } = useLoader();
+  const { isLoading, withLoading } = useLoader();
   const navigation = useNavigation();
 
   const handleLogin = async () => {
@@ -20,6 +20,18 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
+      <Modal
+        transparent={true}
+        visible={isLoading}
+        animationType="fade"
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" color="#007AFF" />
+          </View>
+        </View>
+      </Modal>
+
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
@@ -34,8 +46,14 @@ export default function Login() {
         value={password}
         onChangeText={setPassword}
       />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleLogin}
+        disabled={isLoading}
+      >
+
         <Text style={styles.buttonText}>Login</Text>
+
       </TouchableOpacity>
     </View>
   );
@@ -71,4 +89,23 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loaderContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  }
 }); 

@@ -22,10 +22,12 @@ interface StoreState {
     products: Product[];
     cart: CartItem[];
     isLoading: boolean;
+    count: number;
     addToCart: (product: Product) => void;
     removeFromCart: (productId: number) => void;
     updateQuantity: (productId: number, quantity: number) => void;
     setLoading: (loading: boolean) => void;
+    addCount: (element: number) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -35,7 +37,7 @@ export const useStore = create<StoreState>((set) => ({
             name: 'Эспрессо',
             price: 150,
             description: 'Крепкий черный кофе, приготовленный под высоким давлением. Идеален для настоящих ценителей насыщенного вкуса.',
-            image: ['https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/632844fbad60f7d3dc2a7180_Polyakovfoto_Simple%20Coffee17793%202-p-800.jpg','https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/632844fbad60f7d3dc2a7180_Polyakovfoto_Simple%20Coffee17793%202-p-800.jpg'],
+            image: ['https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/632844fbad60f7d3dc2a7180_Polyakovfoto_Simple%20Coffee17793%202-p-800.jpg', 'https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/632844fbad60f7d3dc2a7180_Polyakovfoto_Simple%20Coffee17793%202-p-800.jpg'],
             rating: 4,
             reviews: [
                 { id: 1, userName: 'User1', text: 'Great product!' },
@@ -163,6 +165,11 @@ export const useStore = create<StoreState>((set) => ({
     ],
     cart: [],
     isLoading: false,
+    count: 0,
+    addCount: (element) =>
+        set((state) => ({
+            count: state.count + element,
+        })),
     addToCart: (product) =>
         set((state) => {
             const existingItem = state.cart.find((item) => item.id === product.id);

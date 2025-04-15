@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, ViewStyle, TextStyle, ImageStyle } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, ViewStyle, TextStyle, ImageStyle, ActivityIndicator } from 'react-native';
 import { useStore } from '../../store';
 import { Ionicons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -58,6 +58,7 @@ export default function ProductDetail({ route, navigation }: Props): React.JSX.E
   const { id } = route.params;
   const products = useStore((state: StoreState) => state.products);
   const addToCart = useStore((state: StoreState) => state.addToCart);
+  const isLoading = useStore((state: StoreState) => state.isLoading);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -134,8 +135,13 @@ export default function ProductDetail({ route, navigation }: Props): React.JSX.E
         <TouchableOpacity
           style={styles.button}
           onPress={() => addToCart(product)}
+          disabled={isLoading}
         >
-          <Text style={styles.buttonText}>Добавить в корзину</Text>
+          {isLoading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={styles.buttonText}>Добавить в корзину</Text>
+          )}
         </TouchableOpacity>
       </View>
       <View style={styles.reviews}>

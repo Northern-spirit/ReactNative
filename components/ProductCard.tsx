@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { useStore } from '../store';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from "../app/_layout";
@@ -23,11 +23,11 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const addToCart = useStore((state) => state.addToCart);
+  const isLoading = useStore((state) => state.isLoading);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const handleAddToCart = (product: ProductCardProps['product']) => {
-    addToCart(product);
-    console.log(product)
+  const handleAddToCart = async (product: ProductCardProps['product']) => {
+    await addToCart(product);
   };
 
   const handlePress = () => {
@@ -41,8 +41,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <Text style={styles.price}>${product.price}</Text>
         <Text style={styles.name}>{product.name}</Text>
         <Text style={styles.description}>{product.description}</Text>
-        <TouchableOpacity style={styles.button} onPress={() => handleAddToCart(product)}>
-          <Text style={styles.buttonText}>Add</Text>
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => handleAddToCart(product)}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={styles.buttonText}>Add</Text>
+          )}
         </TouchableOpacity>
       </View>
     </TouchableOpacity>

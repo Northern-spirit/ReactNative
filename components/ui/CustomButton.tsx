@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 
 type ButtonProps = {
     value: string
     onPress: () => void;
+    isLoading?: boolean;
 }
 
 export function CustomButton({
     value,
-    onPress
+    onPress,
+    isLoading = false
 }: ButtonProps) {
     return (
         <TouchableOpacity
             style={styles.customButton}
             onPress={onPress}
+            disabled={isLoading}
         >
-            <Text style={styles.buttonText}>{value}</Text>
+            {isLoading ? (
+                <ActivityIndicator color="white" />
+            ) : (
+                <Text style={styles.buttonText}>{value}</Text>
+            )}
         </TouchableOpacity>
     );
 }
