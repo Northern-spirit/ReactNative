@@ -4,6 +4,7 @@ import { useStore } from '../store';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from "../app/_layout";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNotifications } from '../hooks/useNotifications';
 
 interface ProductCardProps {
   product: {
@@ -14,9 +15,9 @@ interface ProductCardProps {
     image: string[];
     rating: number;
     reviews: {
-        id: number;
-        userName: string;
-        text: string;
+      id: number;
+      userName: string;
+      text: string;
     }[];
   };
 }
@@ -25,8 +26,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const addToCart = useStore((state) => state.addToCart);
   const isLoading = useStore((state) => state.isLoading);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { notifySuccess } = useNotifications();
 
   const handleAddToCart = async (product: ProductCardProps['product']) => {
+    notifySuccess('Product added')
     await addToCart(product);
   };
 
@@ -41,8 +44,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <Text style={styles.price}>${product.price}</Text>
         <Text style={styles.name}>{product.name}</Text>
         <Text style={styles.description}>{product.description}</Text>
-        <TouchableOpacity 
-          style={styles.button} 
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => handleAddToCart(product)}
           disabled={isLoading}
         >
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200,
+    height: 300,
     resizeMode: 'cover',
   },
   info: {
@@ -97,14 +100,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#B4846C',
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
     alignItems: 'center',
   },
   buttonText: {
-    color: 'white',
+    color: '#FFF8F0',
     fontWeight: 'bold',
   },
 }); 

@@ -11,14 +11,19 @@ export default function Cart() {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/images/background.jpeg")}
+        style={StyleSheet.absoluteFillObject}
+        resizeMode="cover"
+      />
       <FlatList
         data={cart}
         renderItem={({ item }) => (
           <View style={styles.item}>
-            <Image 
-              source={{ uri: item.image[0] }} 
-              style={styles.image} 
-              // defaultSource={require('../assets/images/placeholder.png')}
+            <Image
+              source={{ uri: item.image[0] }}
+              style={styles.image}
+            // defaultSource={require('../assets/images/placeholder.png')}
             />
             <View style={styles.info}>
               <Text style={styles.name}>{item.name}</Text>

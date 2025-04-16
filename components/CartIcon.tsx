@@ -15,7 +15,7 @@ export const CartIcon: React.FC = () => {
       style={styles.container}
       onPress={() => navigation.navigate('Cart' as never)}
     >
-      <Ionicons name="cart" size={24} color="black" />
+      <Ionicons name="cart" size={24} color="#6B3B1A" />
       {totalItems > 0 && (
         <View style={styles.badge}>
           <Text style={styles.badgeText}>{totalItems}</Text>
@@ -34,15 +34,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    borderRadius: 10,
+    borderRadius: 23,
     minWidth: 20,
     height: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#C97B63'
   },
   badgeText: {
-    color: 'white',
-    fontSize: 12,
+    color: '#FFF8F0',
+    fontSize: 11,
     fontWeight: 'bold',
   },
 }); 

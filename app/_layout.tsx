@@ -79,14 +79,14 @@ export default function Layout() {
   };
 
   return (
-    <RootStack.Navigator initialRouteName="login" screenOptions={screenOptions}>
-      <RootStack.Screen name="login" component={screens.login} />
-      <RootStack.Screen name="Home" component={screens.home} />
-      <RootStack.Screen name="Cart" component={screens.cart} />
-      <RootStack.Screen name="ProductDetail" component={screens.productDetail} />
-      <RootStack.Screen name="Promotions" component={screens.promotions} />
-      <RootStack.Screen name="Forum" component={screens.forum} />
-      <RootStack.Screen name="About" component={screens.about} />
-    </RootStack.Navigator>
+      <RootStack.Navigator initialRouteName="login" screenOptions={screenOptions}>
+        <RootStack.Screen name="login" component={screens.login} />
+        <RootStack.Screen name="Home" component={screens.home} />
+        <RootStack.Screen name="Cart" component={screens.cart} />
+        <RootStack.Screen name="ProductDetail" component={screens.productDetail} />
+        <RootStack.Screen name="Promotions" component={screens.promotions} />
+        <RootStack.Screen name="Forum" component={screens.forum} />
+        <RootStack.Screen name="About" component={screens.about} />
+      </RootStack.Navigator>
   );
 }

@@ -4,6 +4,8 @@ import { useStore } from '../../store';
 import { Ionicons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../_layout';
+import { Notifications } from "../../components/Notifications";
+import { useNotifications } from '../../hooks/useNotifications';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ProductDetail'>;
 
@@ -61,6 +63,7 @@ export default function ProductDetail({ route, navigation }: Props): React.JSX.E
   const isLoading = useStore((state: StoreState) => state.isLoading);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { notifySuccess } = useNotifications();
 
   const product = products.find((p: Product) => p.id === Number(id));
 
@@ -103,7 +106,7 @@ export default function ProductDetail({ route, navigation }: Props): React.JSX.E
         onMomentumScrollEnd={(event) => {
           const index = Math.round(
             event.nativeEvent.contentOffset.x /
-              event.nativeEvent.layoutMeasurement.width
+            event.nativeEvent.layoutMeasurement.width
           );
           setCurrentImageIndex(index);
         }}
@@ -134,7 +137,7 @@ export default function ProductDetail({ route, navigation }: Props): React.JSX.E
         <Text style={styles.description}>{product.description}</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => addToCart(product)}
+          onPress={() => {addToCart(product), notifySuccess('Product added')}}
           disabled={isLoading}
         >
           {isLoading ? (
@@ -172,6 +175,7 @@ export default function ProductDetail({ route, navigation }: Props): React.JSX.E
           />
         </View>
       </Modal>
+      <Notifications />
     </View>
   );
 }
@@ -225,7 +229,7 @@ const styles = StyleSheet.create<Styles>({
     marginTop: 10,
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#B4846C',
     padding: 15,
     borderRadius: 5,
     marginTop: 20,
