@@ -11,7 +11,7 @@ interface Screens {
   cart: ScreenComponent;
   productDetail: ScreenComponent;
   promotions: ScreenComponent;
-  forum: ScreenComponent;
+  map: ScreenComponent;
   about: ScreenComponent;
 }
 
@@ -21,7 +21,7 @@ export type RootStackParamList = {
   Cart: undefined;
   ProductDetail: { id: string };
   Promotions: undefined;
-  Forum: undefined;
+  Map: undefined;
   About: undefined;
 };
 
@@ -39,7 +39,7 @@ export default function Layout() {
         cartScreen,
         productDetailScreen,
         promotionsScreen,
-        forumScreen,
+        mapScreen,
         aboutScreen,
       ] = await Promise.all([
         import('./login'),
@@ -47,7 +47,7 @@ export default function Layout() {
         import('./cart'),
         import('./product/[id]'),
         import('./promotions'),
-        import('./forum'),
+        import('./map'),
         import('./about'),
       ]);
 
@@ -57,7 +57,7 @@ export default function Layout() {
         cart: cartScreen.default,
         productDetail: productDetailScreen.default,
         promotions: promotionsScreen.default,
-        forum: forumScreen.default,
+        map: mapScreen.default,
         about: aboutScreen.default,
       });
       setIsReady(true);
@@ -85,7 +85,7 @@ export default function Layout() {
         <RootStack.Screen name="Cart" component={screens.cart} />
         <RootStack.Screen name="ProductDetail" component={screens.productDetail} />
         <RootStack.Screen name="Promotions" component={screens.promotions} />
-        <RootStack.Screen name="Forum" component={screens.forum} />
+        <RootStack.Screen name="Map" component={screens.map} />
         <RootStack.Screen name="About" component={screens.about} />
       </RootStack.Navigator>
   );

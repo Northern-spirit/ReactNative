@@ -3,17 +3,27 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useStore } from '../store';
 import { useNavigation } from '@react-navigation/native';
+import { useNotifications } from '../hooks/useNotifications';
 
 export const CartIcon: React.FC = () => {
   const cart = useStore((state) => state.cart);
   const navigation = useNavigation();
+  const { notifyError } = useNotifications();
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  const reroutCart = () => {
+    if (cart.length < 1) {
+      notifyError('Add product!)')
+    } else {
+      navigation.navigate('Cart' as never)
+    }
+  }
 
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate('Cart' as never)}
+      onPress={()=>reroutCart()}
     >
       <Ionicons name="cart" size={24} color="#6B3B1A" />
       {totalItems > 0 && (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { View, Text, StyleSheet, ViewStyle, TextStyle, Image } from 'react-native';
 import { NavBar } from '../components/NavBar';
 
 interface Styles {
@@ -10,6 +10,11 @@ interface Styles {
 export default function Promotions(): React.JSX.Element {
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/images/background.jpeg")}
+        style={StyleSheet.absoluteFillObject}
+        resizeMode="cover"
+      />
       <Text style={styles.title}>Акции</Text>
       <NavBar />
     </View>

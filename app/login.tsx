@@ -10,7 +10,7 @@ export default function Login() {
   const navigation = useNavigation();
 
   const handleLogin = async () => {
-    if (username === 'admin' && password === 'admin') {
+    if (username === '' && password === '') {
       await withLoading(async () => {
         await new Promise((resolve) => setTimeout(resolve, 2000));
         navigation.navigate('Home' as never);

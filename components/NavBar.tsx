@@ -1,6 +1,17 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+import type { ComponentProps } from 'react';
+
+type IoniconName = ComponentProps<typeof Ionicons>['name'];
+
+const NAV_ITEMS: { label: string; icon: IoniconName; route: string }[] = [
+  { label: 'Меню', icon: 'restaurant-outline', route: 'Home' },
+  { label: 'Акции и бонусы', icon: 'pricetag-outline', route: 'Promotions' },
+  { label: 'Карта кофеен', icon: 'map-outline', route: 'Map' },
+  { label: 'О нас', icon: 'information-circle-outline', route: 'About' },
+];
 
 export const NavBar: React.FC = () => {
   const navigation = useNavigation();
@@ -11,30 +22,19 @@ export const NavBar: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.navItem}
-        onPress={() => navigateTo('Home')}
-      >
-        <Text style={styles.navText}>Home</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.navItem}
-        onPress={() => navigateTo('Promotions')}
-      >
-        <Text style={styles.navText}>Promotions</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.navItem}
-        onPress={() => navigateTo('Forum')}
-      >
-        <Text style={styles.navText}>Forum</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.navItem}
-        onPress={() => navigateTo('About')}
-      >
-        <Text style={styles.navText}>About</Text>
-      </TouchableOpacity>
+      {NAV_ITEMS.map(({ label, icon, route }) => (
+        <TouchableOpacity
+          key={route}
+          style={styles.navItem}
+          activeOpacity={0.7}
+          onPress={() => navigateTo(route)}
+        >
+          <View style={styles.iconWrapper}>
+            <Ionicons name={icon} size={24} color="#6B3B1A" />
+          </View>
+          <Text style={styles.navText}>{label}</Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };
@@ -43,16 +43,34 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 10,
-    backgroundColor: '#fff',
+    paddingVertical: 12,
+    backgroundColor: 'rgba(255, 248, 240, 0.85)',
     borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
+    borderTopColor: '#D9B08C',
+    shadowColor: '#6B3B1A',
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 8,
   },
   navItem: {
-    padding: 10,
+    alignItems: 'center',
+  },
+  iconWrapper: {
+    backgroundColor: '#D9B08C',
+    borderRadius: 25,
+    padding: 8,
+    marginBottom: 4,
+    shadowColor: '#6B3B1A',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
   },
   navText: {
-    fontSize: 16,
-    color: '#333',
+    fontSize: 14,
+    color: '#6B3B1A',
+    fontWeight: '600',
+    textAlign: 'center',
   },
-}); 
+});

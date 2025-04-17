@@ -7,7 +7,7 @@ interface Styles {
   title: TextStyle;
 }
 
-export default function Forum(): React.JSX.Element {
+export default function Map(): React.JSX.Element {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Форум</Text>

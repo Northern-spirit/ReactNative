@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useStore } from '../store';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Cart() {
   const cart = useStore((state) => state.cart);
   const removeFromCart = useStore((state) => state.removeFromCart);
   const updateQuantity = useStore((state) => state.updateQuantity);
+  const navigation = useNavigation();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  useEffect(() => {
+    if (cart.length === 0) {
+      navigation.navigate('Home' as never)
+    }
+  }, [cart.length])
 
   return (
     <View style={styles.container}>

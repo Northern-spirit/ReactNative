@@ -25,6 +25,6 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
             set({
                 notifications: currentNotifications.filter((n) => n !== notification),
             });
-        }, 4000);
+        }, 1000);
     },
 }));

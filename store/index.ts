@@ -161,6 +161,71 @@ export const useStore = create<StoreState>((set) => ({
                 { id: 2, userName: 'User2', text: 'Very good quality' },
                 { id: 3, userName: 'User3', text: 'Fast delivery' }
             ]
+        },
+        {
+            id: 11,
+            name: 'Маккаруны',
+            price: 230,
+            description: 'Хочется сладкого, но совсем немножко? Возьмите малый десерт в нашей кофейне! Свежие макаруны, конфеты ручной работы из бельгийского шоколада (по рецепту 2010 года!), тарты и штрудели – каждый найдет лакомство по вкусу!',
+            image: ['https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/6329ad5461fe6a988eb8e0b3_md-p-800.jpg'],
+            rating: 4,
+            reviews: [
+                { id: 1, userName: 'User1', text: 'Great product!' },
+                { id: 2, userName: 'User2', text: 'Very good quality' },
+                { id: 3, userName: 'User3', text: 'Fast delivery' }
+            ]
+        },
+        {
+            id: 12,
+            name: 'Вариант завтрака I',
+            price: 230,
+            description: 'Начните день с отличного настроения! Выберите завтрак с горячей кашей и любимым напитком по специальной цене! Ищите фирменные завтраки во всех кофейнях сети каждый день с открытия до 12:00.',
+            image: ['https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/63283c9e2bb524ad84cf6f28_Polyakovfoto_Simple%20Coffee17860.jpg'],
+            rating: 4,
+            reviews: [
+                { id: 1, userName: 'User1', text: 'Great product!' },
+                { id: 2, userName: 'User2', text: 'Very good quality' },
+                { id: 3, userName: 'User3', text: 'Fast delivery' }
+            ]
+        },
+        {
+            id: 13,
+            name: 'Вариант завтрака II',
+            price: 230,
+            description: 'Начните день с отличного настроения! Выберите завтрак с горячей кашей и любимым напитком по специальной цене! Ищите фирменные завтраки во всех кофейнях сети каждый день с открытия до 12:00.',
+            image: ['https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/63283e3cc6ac55aed5bb9508_Polyakovfoto_Simple%20Coffee17859.jpg'],
+            rating: 4,
+            reviews: [
+                { id: 1, userName: 'User1', text: 'Great product!' },
+                { id: 2, userName: 'User2', text: 'Very good quality' },
+                { id: 3, userName: 'User3', text: 'Fast delivery' }
+            ]
+        },
+        {
+            id: 14,
+            name: 'Вариант завтрака III',
+            price: 230,
+            description: 'Завтрак настоящего чемпиона! Любимый напиток, пара сырников и горячая каша наполнят вас силами на целый день, а свежий фрукт станет отличным свидетельством здорового образа жизни! Ищите фирменные завтраки во всех кофейнях сети каждый день с открытия до 12:00.',
+            image: ['https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/63283e85a1de316e2f625c0c_Polyakovfoto_Simple%20Coffee17856.jpg'],
+            rating: 4,
+            reviews: [
+                { id: 1, userName: 'User1', text: 'Great product!' },
+                { id: 2, userName: 'User2', text: 'Very good quality' },
+                { id: 3, userName: 'User3', text: 'Fast delivery' }
+            ]
+        },
+        {
+            id: 15,
+            name: 'Сырники на завтрак',
+            price: 230,
+            description: 'Завтрак настоящего чемпиона! Любимый напиток, пара сырников и горячая каша наполнят вас силами на целый день, а свежий фрукт станет отличным свидетельством здорового образа жизни! Ищите фирменные завтраки во всех кофейнях сети каждый день с открытия до 12:00.',
+            image: ['https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/63283cacbfe14e4acfa36ac5_Polyakovfoto_Simple%20Coffee17868.jpg'],
+            rating: 4,
+            reviews: [
+                { id: 1, userName: 'User1', text: 'Great product!' },
+                { id: 2, userName: 'User2', text: 'Very good quality' },
+                { id: 3, userName: 'User3', text: 'Fast delivery' }
+            ]
         }
     ],
     cart: [],
