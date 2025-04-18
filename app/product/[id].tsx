@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, ViewStyle, TextStyle, ImageStyle, ActivityIndicator } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useStore } from '../../store';
 import { Ionicons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -33,28 +33,6 @@ interface StoreState {
   setLoading: (loading: boolean) => void;
 }
 
-interface Styles {
-  container: ViewStyle;
-  image: ImageStyle;
-  dots: ViewStyle;
-  dot: ViewStyle;
-  activeDot: ViewStyle;
-  info: ViewStyle;
-  name: TextStyle;
-  price: TextStyle;
-  rating: ViewStyle;
-  description: TextStyle;
-  button: ViewStyle;
-  buttonText: TextStyle;
-  reviews: ViewStyle;
-  reviewsTitle: TextStyle;
-  review: ViewStyle;
-  reviewUser: TextStyle;
-  reviewText: TextStyle;
-  modalContainer: ViewStyle;
-  closeButton: ViewStyle;
-  fullScreenImage: ImageStyle;
-}
 
 export default function ProductDetail({ route, navigation }: Props): React.JSX.Element {
   const { id } = route.params;
@@ -98,92 +76,98 @@ export default function ProductDetail({ route, navigation }: Props): React.JSX.E
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={images}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={(event) => {
-          const index = Math.round(
-            event.nativeEvent.contentOffset.x /
-            event.nativeEvent.layoutMeasurement.width
-          );
-          setCurrentImageIndex(index);
-        }}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => setSelectedImage(item[0])}>
-            <Image source={{ uri: item[0] }} style={styles.image} />
-          </TouchableOpacity>
-        )}
-        keyExtractor={(_, index) => index.toString()}
-      />
-      <View style={styles.dots}>
-        {images.map((_, index) => (
-          <View
-            key={index}
-            style={[
-              styles.dot,
-              index === currentImageIndex && styles.activeDot,
-            ]}
-          />
-        ))}
-      </View>
-      <View style={styles.info}>
-        <Text style={styles.name}>{product.name}</Text>
-        <Text style={styles.price}>${product.price}</Text>
-        <View style={styles.rating}>
-          {renderStars(product.rating)}
-        </View>
-        <Text style={styles.description}>{product.description}</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {addToCart(product), notifySuccess('Product added')}}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <Text style={styles.buttonText}>Добавить в корзину</Text>
+      <SafeAreaView style={styles.safe}>
+        <FlatList
+          data={images}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onMomentumScrollEnd={(event) => {
+            const index = Math.round(
+              event.nativeEvent.contentOffset.x /
+              event.nativeEvent.layoutMeasurement.width
+            );
+            setCurrentImageIndex(index);
+          }}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => setSelectedImage(item[0])}>
+              <Image source={{ uri: item[0] }} style={styles.image} />
+            </TouchableOpacity>
           )}
-        </TouchableOpacity>
-      </View>
-      <View style={styles.reviews}>
-        <Text style={styles.reviewsTitle}>Отзывы</Text>
-        {product.reviews.map((review) => (
-          <View key={review.id} style={styles.review}>
-            <Text style={styles.reviewUser}>{review.userName}</Text>
-            <Text style={styles.reviewText}>{review.text}</Text>
-          </View>
-        ))}
-      </View>
-      <Modal
-        visible={selectedImage !== null}
-        transparent
-        onRequestClose={() => setSelectedImage(null)}
-      >
-        <View style={styles.modalContainer}>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => setSelectedImage(null)}
-          >
-            <Ionicons name="close" size={30} color="white" />
-          </TouchableOpacity>
-          <Image
-            source={{ uri: selectedImage || '' }}
-            style={styles.fullScreenImage}
-            resizeMode="contain"
-          />
+          keyExtractor={(_, index) => index.toString()}
+        />
+        <View style={styles.dots}>
+          {images.map((_, index) => (
+            <View
+              key={index}
+              style={[
+                styles.dot,
+                index === currentImageIndex && styles.activeDot,
+              ]}
+            />
+          ))}
         </View>
-      </Modal>
-      <Notifications />
+        <View style={styles.info}>
+          <Text style={styles.name}>{product.name}</Text>
+          <Text style={styles.price}>${product.price}</Text>
+          <View style={styles.rating}>
+            {renderStars(product.rating)}
+          </View>
+          <Text style={styles.description}>{product.description}</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => { addToCart(product), notifySuccess('Product added') }}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text style={styles.buttonText}>Добавить в корзину</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+        <View style={styles.reviews}>
+          <Text style={styles.reviewsTitle}>Отзывы</Text>
+          {product.reviews.map((review) => (
+            <View key={review.id} style={styles.review}>
+              <Text style={styles.reviewUser}>{review.userName}</Text>
+              <Text style={styles.reviewText}>{review.text}</Text>
+            </View>
+          ))}
+        </View>
+        <Modal
+          visible={selectedImage !== null}
+          transparent
+          onRequestClose={() => setSelectedImage(null)}
+        >
+          <View style={styles.modalContainer}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setSelectedImage(null)}
+            >
+              <Ionicons name="close" size={30} color="white" />
+            </TouchableOpacity>
+            <Image
+              source={{ uri: selectedImage || '' }}
+              style={styles.fullScreenImage}
+              resizeMode="contain"
+            />
+          </View>
+        </Modal>
+        <Notifications />
+      </SafeAreaView>
+
     </View>
   );
 }
 
-const styles = StyleSheet.create<Styles>({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+  },
+  safe: {
+    flex: 1,
   },
   image: {
     width: 400,

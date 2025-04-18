@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { NavBar } from '../components/NavBar';
 import { PromoCard } from '../components/PromoCard'
 import { usePromoCard } from '../store/promoCard';
 import type { ListRenderItem } from 'react-native';
 import { PromoCardItemProps } from '../types/types';
-import {CartIcon} from '../components/CartIcon'
+import { CartIcon } from '../components/CartIcon'
 
 
 export default function Promotions(): React.JSX.Element {
@@ -17,19 +17,21 @@ export default function Promotions(): React.JSX.Element {
 
   return (
     <View style={styles.container}>
-      <View style={styles.wrapperHeader}>
-        <Text style={styles.title}>Акции</Text>
-        <CartIcon />
-      </View>
-      <FlatList
-        data={promoCard}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={1}
-        contentContainerStyle={styles.listContainer}
-        showsVerticalScrollIndicator={false}
-      />
-      <NavBar />
+      <SafeAreaView style={styles.safe}>
+        <View style={styles.wrapperHeader}>
+          <Text style={styles.title}>Акции</Text>
+          <CartIcon />
+        </View>
+        <FlatList
+          data={promoCard}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={1}
+          contentContainerStyle={styles.listContainer}
+          showsVerticalScrollIndicator={false}
+        />
+        <NavBar />
+      </SafeAreaView>
     </View>
   );
 }
@@ -54,5 +56,8 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingBottom: 80,
+  },
+  safe: {
+    flex: 1,
   },
 }); 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { useStore } from '../store';
 import { useNavigation } from '@react-navigation/native';
 
@@ -19,55 +19,57 @@ export default function Cart() {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../assets/images/background.jpeg")}
-        style={StyleSheet.absoluteFillObject}
-        resizeMode="cover"
-      />
-      <FlatList
-        data={cart}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Image
-              source={{ uri: item.image[0] }}
-              style={styles.image}
-            // defaultSource={require('../assets/images/placeholder.png')}
-            />
-            <View style={styles.info}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.price}>${item.price}</Text>
-              <View style={styles.quantityContainer}>
+      <SafeAreaView style={styles.safe}>
+        <Image
+          source={require("../assets/images/background.jpeg")}
+          style={StyleSheet.absoluteFillObject}
+          resizeMode="cover"
+        />
+        <FlatList
+          data={cart}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              <Image
+                source={{ uri: item.image[0] }}
+                style={styles.image}
+              // defaultSource={require('../assets/images/placeholder.png')}
+              />
+              <View style={styles.info}>
+                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.price}>${item.price}</Text>
+                <View style={styles.quantityContainer}>
+                  <TouchableOpacity
+                    onPress={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                  >
+                    <Text style={styles.quantityButton}>-</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.quantity}>{item.quantity}</Text>
+                  <TouchableOpacity
+                    onPress={() => updateQuantity(item.id, item.quantity + 1)}
+                  >
+                    <Text style={styles.quantityButton}>+</Text>
+                  </TouchableOpacity>
+                </View>
                 <TouchableOpacity
-                  onPress={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                  style={styles.removeButton}
+                  onPress={() => removeFromCart(item.id)}
                 >
-                  <Text style={styles.quantityButton}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.quantity}>{item.quantity}</Text>
-                <TouchableOpacity
-                  onPress={() => updateQuantity(item.id, item.quantity + 1)}
-                >
-                  <Text style={styles.quantityButton}>+</Text>
+                  <Text style={styles.removeButtonText}>Remove</Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                style={styles.removeButton}
-                onPress={() => removeFromCart(item.id)}
-              >
-                <Text style={styles.removeButtonText}>Remove</Text>
-              </TouchableOpacity>
             </View>
+          )}
+          keyExtractor={(item) => item.id.toString()}
+          ListEmptyComponent={
+            <Text style={styles.emptyText}>Your cart is empty</Text>
+          }
+        />
+        {cart.length > 0 && (
+          <View style={styles.total}>
+            <Text style={styles.totalText}>Total: ${total.toFixed(2)}</Text>
           </View>
         )}
-        keyExtractor={(item) => item.id.toString()}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>Your cart is empty</Text>
-        }
-      />
-      {cart.length > 0 && (
-        <View style={styles.total}>
-          <Text style={styles.totalText}>Total: ${total.toFixed(2)}</Text>
-        </View>
-      )}
+      </SafeAreaView>
     </View>
   );
 }
@@ -76,6 +78,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+  },
+  safe: {
+    flex: 1,
   },
   item: {
     backgroundColor: 'white',
