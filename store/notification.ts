@@ -1,16 +1,5 @@
 import { create } from 'zustand';
-
-type NotificationType = 'success' | 'error';
-
-interface Notification {
-    text: string;
-    type: NotificationType;
-}
-
-interface NotificationState {
-    notifications: Notification[];
-    addNotification: (notification: Notification) => void;
-}
+import { NotificationState} from '../types/types'
 
 export const useNotificationStore = create<NotificationState>((set, get) => ({
     notifications: [],
@@ -19,7 +8,7 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
             notifications: [...state.notifications, notification],
         }));
 
-        // Автоматическое удаление через 4 секунды
+        // Автоматическое удаление через 1 секунду
         setTimeout(() => {
             const currentNotifications = get().notifications;
             set({

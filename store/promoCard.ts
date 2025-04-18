@@ -1,20 +1,9 @@
 import { create } from 'zustand';
+import { PromoCardProps} from '../types/types'
+import { promoCard } from '../constants/MockData'
 
-interface PromoCardItemProps {
-    id: number;
-    img: string;
-    title: string;
-    text: string;
-}
-
-interface PromoCardProps {
-    promoCard: PromoCardItemProps[];
-    addPromoCard: (promoCard: PromoCardItemProps) => void;
-    removePromoCard: (idPromoCard: number) => void;
-}
-
-export const usePromoCard = create<PromoCardProps>((set, get) => ({
-    promoCard: [],
+export const usePromoCard = create<PromoCardProps>((set) => ({
+    promoCard: promoCard,
     addPromoCard: (promoCard) => {
         set((state) => ({
             promoCard: [...state.promoCard, promoCard],

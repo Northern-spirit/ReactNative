@@ -1,30 +1,41 @@
 import React from 'react';
-import { View, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { NavBar } from '../components/NavBar';
-
-interface Styles {
-  container: ViewStyle;
-  title: TextStyle;
-}
+// import { YaMap, Marker } from 'react-native-yamap';
 
 export default function Map(): React.JSX.Element {
+  const COFFEE_LOCATION = {
+    lat: 56.858647,
+    lon: 60.620688, // координаты Комсомольская 37, Екатеринбург
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Форум</Text>
+      <YaMap
+        style={styles.map}
+        initialRegion={{
+          lat: COFFEE_LOCATION.lat,
+          lon: COFFEE_LOCATION.lon,
+          zoom: 15,
+        }}
+      >
+        <Marker
+          point={COFFEE_LOCATION}
+          scale={2}
+        />
+      </YaMap>
       <NavBar />
     </View>
   );
 }
 
-const styles = StyleSheet.create<Styles>({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  map: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 }); 

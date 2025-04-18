@@ -13,6 +13,7 @@ interface Screens {
   promotions: ScreenComponent;
   map: ScreenComponent;
   about: ScreenComponent;
+  profile: ScreenComponent;
 }
 
 export type RootStackParamList = {
@@ -23,6 +24,7 @@ export type RootStackParamList = {
   Promotions: undefined;
   Map: undefined;
   About: undefined;
+  Profile: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -41,6 +43,7 @@ export default function Layout() {
         promotionsScreen,
         mapScreen,
         aboutScreen,
+        profileScreen
       ] = await Promise.all([
         import('./login'),
         import('./home'),
@@ -49,6 +52,7 @@ export default function Layout() {
         import('./promotions'),
         import('./map'),
         import('./about'),
+        import('./profile')
       ]);
 
       setScreens({
@@ -59,6 +63,7 @@ export default function Layout() {
         promotions: promotionsScreen.default,
         map: mapScreen.default,
         about: aboutScreen.default,
+        profile: profileScreen.default
       });
       setIsReady(true);
     }
@@ -87,6 +92,7 @@ export default function Layout() {
         <RootStack.Screen name="Promotions" component={screens.promotions} />
         <RootStack.Screen name="Map" component={screens.map} />
         <RootStack.Screen name="About" component={screens.about} />
+        <RootStack.Screen name="Profile" component={screens.profile} />
       </RootStack.Navigator>
   );
 }
