@@ -36,4 +36,5 @@ export const useStore = create<ProducstStoreState>((set) => ({
             ),
         })),
     setLoading: (loading) => set({ isLoading: loading }),
+    clearCart: () => set({ cart: [] }),
 }));

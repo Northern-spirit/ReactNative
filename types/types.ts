@@ -26,6 +26,7 @@ export interface ProducstStoreState {
     updateQuantity: (productId: number, quantity: number) => void;
     setLoading: (loading: boolean) => void;
     addCount: (element: number) => void;
+    clearCart: () => void;
 }
 
 export type NotificationType = 'success' | 'error';

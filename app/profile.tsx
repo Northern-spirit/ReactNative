@@ -1,8 +1,25 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Image, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
 import { NavBar } from '../components/NavBar';
+import { useUser } from '../store/user';
+import { useNotifications } from '../hooks/useNotifications';
 
 export default function Profile(): React.JSX.Element {
+  const { firstName, lastName, email, updateUser } = useUser();
+  const { notifySuccess } = useNotifications();
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName,
+    lastName,
+    email,
+  });
+
+  const handleSave = () => {
+    updateUser(formData);
+    setIsEditing(false);
+    notifySuccess('Профиль обновлен');
+  };
+
   return (
     <View style={styles.root}>
       <Image
@@ -15,10 +32,48 @@ export default function Profile(): React.JSX.Element {
           <Text style={styles.title}>Личный кабинет</Text>
           <View style={styles.profileInfo}>
             <View style={styles.avatar}>
-              <Text style={styles.avatarText}>АП</Text>
+              <Text style={styles.avatarText}>
+                {formData.firstName[0]}{formData.lastName[0]}
+              </Text>
             </View>
-            <Text style={styles.name}>Александр Грехов</Text>
-            <Text style={styles.email}>btld_grekhov@mail.ru</Text>
+            
+            {isEditing ? (
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={formData.firstName}
+                  onChangeText={(text) => setFormData(prev => ({ ...prev, firstName: text }))}
+                  placeholder="Имя"
+                />
+                <TextInput
+                  style={styles.input}
+                  value={formData.lastName}
+                  onChangeText={(text) => setFormData(prev => ({ ...prev, lastName: text }))}
+                  placeholder="Фамилия"
+                />
+                <TextInput
+                  style={styles.input}
+                  value={formData.email}
+                  onChangeText={(text) => setFormData(prev => ({ ...prev, email: text }))}
+                  placeholder="Email"
+                  keyboardType="email-address"
+                />
+                <TouchableOpacity style={styles.button} onPress={handleSave}>
+                  <Text style={styles.buttonText}>Сохранить</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <Text style={styles.name}>{firstName} {lastName}</Text>
+                <Text style={styles.email}>{email}</Text>
+                <TouchableOpacity 
+                  style={styles.button} 
+                  onPress={() => setIsEditing(true)}
+                >
+                  <Text style={styles.buttonText}>Редактировать</Text>
+                </TouchableOpacity>
+              </>
+            )}
           </View>
         </View>
         <NavBar />
@@ -41,7 +96,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#6B3B1A',
+    color: 'white',
     textAlign: 'center',
     marginVertical: 16,
   },
@@ -75,5 +130,27 @@ const styles = StyleSheet.create({
   email: {
     fontSize: 16,
     color: '#4A4A4A',
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#6B3B1A',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    marginBottom: 12,
+    backgroundColor: 'white',
+  },
+  button: {
+    backgroundColor: '#6B3B1A',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginTop: 16,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
   },
 }); 

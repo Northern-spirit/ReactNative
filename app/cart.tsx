@@ -2,29 +2,38 @@ import React, { useEffect } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { useStore } from '../store';
 import { useNavigation } from '@react-navigation/native';
+import { useNotifications } from '../hooks/useNotifications';
 
 export default function Cart() {
   const cart = useStore((state) => state.cart);
-  const removeFromCart = useStore((state) => state.removeFromCart);
+  const clearCart = useStore((state) => state.clearCart);
   const updateQuantity = useStore((state) => state.updateQuantity);
+  const removeFromCart = useStore((state) => state.removeFromCart);
   const navigation = useNavigation();
+  const { notifySuccess } = useNotifications();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   useEffect(() => {
     if (cart.length === 0) {
-      navigation.navigate('Home' as never)
+      navigation.navigate('Home' as never);
     }
-  }, [cart.length])
+  }, [cart.length]);
+
+  const handlePurchase = () => {
+    clearCart();
+    notifySuccess('Спасибо за покупку! Ваш заказ принят');
+    navigation.navigate('Home' as never);
+  };
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/images/background.jpeg")}
+        style={StyleSheet.absoluteFillObject}
+        resizeMode="cover"
+      />
       <SafeAreaView style={styles.safe}>
-        <Image
-          source={require("../assets/images/background.jpeg")}
-          style={StyleSheet.absoluteFillObject}
-          resizeMode="cover"
-        />
         <FlatList
           data={cart}
           renderItem={({ item }) => (
@@ -32,7 +41,7 @@ export default function Cart() {
               <Image
                 source={{ uri: item.image[0] }}
                 style={styles.image}
-              // defaultSource={require('../assets/images/placeholder.png')}
+                // defaultSource={require('../assets/images/placeholder.png')}
               />
               <View style={styles.info}>
                 <Text style={styles.name}>{item.name}</Text>
@@ -60,15 +69,25 @@ export default function Cart() {
             </View>
           )}
           keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.listContainer}
           ListEmptyComponent={
             <Text style={styles.emptyText}>Your cart is empty</Text>
           }
         />
-        {cart.length > 0 && (
+        {/* {cart.length > 0 && (
           <View style={styles.total}>
             <Text style={styles.totalText}>Total: ${total.toFixed(2)}</Text>
           </View>
-        )}
+        )} */}
+        <View style={styles.footer}>
+          <Text style={styles.totalText}>Итого: ${total.toFixed(2)}</Text>
+          <TouchableOpacity 
+            style={styles.purchaseButton}
+            onPress={handlePurchase}
+          >
+            <Text style={styles.purchaseButtonText}>Оформить заказ</Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     </View>
   );
@@ -152,6 +171,24 @@ const styles = StyleSheet.create({
   totalText: {
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'right',
+    color: '#6B3B1A',
+    marginBottom: 8,
+  },
+  footer: {
+    padding: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderTopWidth: 1,
+    borderTopColor: '#E0E0E0',
+  },
+  purchaseButton: {
+    backgroundColor: '#6B3B1A',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  purchaseButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 }); 

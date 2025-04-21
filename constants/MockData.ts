@@ -222,3 +222,9 @@ export const promoCard = [
         price: 2
     },
 ]
+
+export const userData = {
+  firstName: 'Александр',
+  lastName: 'Пушкин',
+  email: 'pushkin@mail.ru',
+};
