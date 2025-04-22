@@ -69,7 +69,7 @@ export default function Cart() {
             </View>
           )}
           keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.listContainer}
+          // contentContainerStyle={styles.listContainer}
           ListEmptyComponent={
             <Text style={styles.emptyText}>Your cart is empty</Text>
           }

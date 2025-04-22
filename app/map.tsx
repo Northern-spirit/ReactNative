@@ -1,30 +1,36 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import { NavBar } from '../components/NavBar';
-// import { YaMap, Marker } from 'react-native-yamap';
+
+// Определение типа для координат
+type Coordinate = {
+  latitude: number;
+  longitude: number;
+};
 
 export default function Map(): React.JSX.Element {
-  const COFFEE_LOCATION = {
-    lat: 56.858647,
-    lon: 60.620688, // координаты Комсомольская 37, Екатеринбург
+  // if (!global.__turboModuleProxy) return null;
+  
+  const COFFEE_LOCATION: Coordinate = {
+    latitude: 56.858647,
+    longitude: 60.620688,
   };
 
   return (
     <View style={styles.container}>
-      <YaMap
+      {/* Из за новой версии реакта на проекте пока не доступны карты так как не оптимизированы карты под эту версию реакта */}
+      {/* <MapView
         style={styles.map}
         initialRegion={{
-          lat: COFFEE_LOCATION.lat,
-          lon: COFFEE_LOCATION.lon,
-          zoom: 15,
+          ...COFFEE_LOCATION,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
         }}
       >
-        <Marker
-          point={COFFEE_LOCATION}
-          scale={2}
-        />
-      </YaMap>
-      <NavBar />
+        <Marker coordinate={COFFEE_LOCATION} />
+      </MapView>
+      <NavBar /> */}
     </View>
   );
 }
@@ -32,10 +38,9 @@ export default function Map(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'relative',
   },
   map: {
     flex: 1,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
   },
-}); 
+});

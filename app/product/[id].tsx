@@ -6,39 +6,15 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../_layout';
 import { Notifications } from "../../components/Notifications";
 import { useNotifications } from '../../hooks/useNotifications';
+import { Product, ProducstStoreState } from '../../types/types'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ProductDetail'>;
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  image: string[];
-  rating: number;
-  reviews: {
-    id: number;
-    userName: string;
-    text: string;
-  }[];
-}
-
-interface StoreState {
-  products: Product[];
-  cart: (Product & { quantity: number })[];
-  isLoading: boolean;
-  addToCart: (product: Product) => void;
-  removeFromCart: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
-  setLoading: (loading: boolean) => void;
-}
-
-
 export default function ProductDetail({ route, navigation }: Props): React.JSX.Element {
   const { id } = route.params;
-  const products = useStore((state: StoreState) => state.products);
-  const addToCart = useStore((state: StoreState) => state.addToCart);
-  const isLoading = useStore((state: StoreState) => state.isLoading);
+  const products = useStore((state: ProducstStoreState) => state.products);
+  const addToCart = useStore((state: ProducstStoreState) => state.addToCart);
+  const isLoading = useStore((state: ProducstStoreState) => state.isLoading);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { notifySuccess } = useNotifications();
@@ -170,14 +146,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: 400,
-    height: 400,
+    width: 420,
+    height: '100%',
     resizeMode: 'cover',
   },
   dots: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 10,
+    margin: 10,
   },
   dot: {
     width: 8,

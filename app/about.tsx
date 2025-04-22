@@ -1,8 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet, ViewStyle, TextStyle, Image, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Image, SafeAreaView, Linking } from 'react-native';
 import { NavBar } from '../components/NavBar';
 
+const TELEGRAM_GROUP_USERNAME = '@Putin_tg_Russia'
+
 export default function About(): React.JSX.Element {
+  const tgHelper = async () => {
+    const tgUrl = `tg://resolve?domain=${TELEGRAM_GROUP_USERNAME}`;
+    const webUrl = `https://t.me/${TELEGRAM_GROUP_USERNAME}`;
+
+    try {
+      // Проверяем, установлен ли Telegram и можно ли открыть ссылку
+      const supported = await Linking.canOpenURL(tgUrl);
+      if (supported) {
+        await Linking.openURL(tgUrl);
+      } else {
+        // Если Telegram не установлен, открываем веб-ссылку
+        await Linking.openURL(webUrl);
+      }
+    } catch (error) {
+      alert('Не удалось открыть Telegram');
+    }
+  }
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safe}>
@@ -21,6 +41,7 @@ export default function About(): React.JSX.Element {
             Мы верим, что отличный кофе — это не только напиток, но и маленький ритуал счастья, который объединяет людей.
             Спасибо, что выбираете нас — вместе мы делаем мир вкуснее и добрее.
           </Text>
+          <Text style={styles.helperBlock} onPress={tgHelper}>Поддержка</Text>
         </View>
         <NavBar />
       </SafeAreaView>
@@ -62,4 +83,11 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3,
   },
+  helperBlock: {
+    position: 'absolute',
+    bottom: 20,
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#F4E3D7', 
+  }
 });

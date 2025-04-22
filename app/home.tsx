@@ -10,22 +10,25 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const CATEGORIES = [
-  { id: 'coffee', title: 'Кофе' },
-  { id: 'sweets', title: 'Сладости' },
-  { id: 'lunch', title: 'Обеды' },
+  { type: 'all', title: 'Все меню' },
+  { type: 'coffee', title: 'Кофе' },
+  { type: 'sweets', title: 'Сладости' },
+  { type: 'lunch', title: 'Обеды' },
 ];
 
 export default function Home() {
   const products = useStore((state) => state.products);
   const [searchQuery, setSearchQuery] = useState('');
   const navigation = useNavigation();
-  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].id);
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].type);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const flatListRef = useRef<FlatList>(null);
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredProducts = products.filter(item => {
+    const matchesCategory = activeCategory === 'all' || item.type === activeCategory;
+    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   const handleScroll = (event: any) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
@@ -36,23 +39,14 @@ export default function Home() {
     flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
   };
 
-  const scrollToCategory = (categoryId: string) => {
-    const sectionIndex = products.findIndex(p => p.category === categoryId);
-    if (sectionIndex !== -1) {
-      flatListRef.current?.scrollToIndex({
-        index: sectionIndex,
-        animated: true,
-        viewPosition: 0,
-        viewOffset: 0
-      });
-    }
-    setActiveCategory(categoryId);
+  const changeCategory = (categoryType: string) => {
+    setActiveCategory(categoryType);
   };
 
   return (
     <View style={styles.root}>
       <Image
-        source={ require("../assets/images/background.jpeg")}
+        source={require("../assets/images/background.jpeg")}
         style={StyleSheet.absoluteFillObject}
         resizeMode="cover"
       />
@@ -73,16 +67,16 @@ export default function Home() {
           <View style={styles.categories}>
             {CATEGORIES.map(category => (
               <TouchableOpacity
-                key={category.id}
+                key={category.type}
                 style={[
                   styles.categoryButton,
-                  activeCategory === category.id && styles.activeCategoryButton
+                  activeCategory === category.type && styles.activeCategoryButton
                 ]}
-                onPress={() => scrollToCategory(category.id)}
+                onPress={() => changeCategory(category.type)}
               >
                 <Text style={[
                   styles.categoryText,
-                  activeCategory === category.id && styles.activeCategoryText
+                  activeCategory === category.type && styles.activeCategoryText
                 ]}>
                   {category.title}
                 </Text>
@@ -90,6 +84,7 @@ export default function Home() {
             ))}
           </View>
           <FlatList
+            style={{ margin: 15 }}
             ref={flatListRef}
             data={filteredProducts}
             renderItem={({ item }) => <ProductCard product={item} />}
@@ -103,7 +98,7 @@ export default function Home() {
             })}
           />
           {showScrollTop && (
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.scrollTopButton}
               onPress={scrollToTop}
             >
@@ -135,7 +130,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: 'rgba(255,255,255,0.9)', 
+    backgroundColor: 'rgba(255,255,255,0.9)',
     borderRadius: 10,
     margin: 10,
   },
