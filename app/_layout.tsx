@@ -14,6 +14,8 @@ interface Screens {
   map: ScreenComponent;
   about: ScreenComponent;
   profile: ScreenComponent;
+  register: ScreenComponent;
+  adminPage: ScreenComponent;
 }
 
 export type RootStackParamList = {
@@ -25,6 +27,8 @@ export type RootStackParamList = {
   Map: undefined;
   About: undefined;
   Profile: undefined;
+  Register: undefined;
+  AdminPage: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -43,7 +47,9 @@ export default function Layout() {
         promotionsScreen,
         mapScreen,
         aboutScreen,
-        profileScreen
+        profileScreen,
+        registerScreen,
+        adminPageScreen,
       ] = await Promise.all([
         import('./login'),
         import('./home'),
@@ -52,7 +58,9 @@ export default function Layout() {
         import('./promotions'),
         import('./map'),
         import('./about'),
-        import('./profile')
+        import('./profile'),
+        import('./register'),
+        import('./adminPage'),
       ]);
 
       setScreens({
@@ -63,7 +71,9 @@ export default function Layout() {
         promotions: promotionsScreen.default,
         map: mapScreen.default,
         about: aboutScreen.default,
-        profile: profileScreen.default
+        profile: profileScreen.default,
+        register: registerScreen.default,
+        adminPage: adminPageScreen.default
       });
       setIsReady(true);
     }
@@ -93,6 +103,8 @@ export default function Layout() {
         <RootStack.Screen name="Map" component={screens.map} />
         <RootStack.Screen name="About" component={screens.about} />
         <RootStack.Screen name="Profile" component={screens.profile} />
+        <RootStack.Screen name="Register" component={screens.register} />
+        <RootStack.Screen name="AdminPage" component={screens.adminPage} />
       </RootStack.Navigator>
   );
 }

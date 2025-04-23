@@ -15,7 +15,7 @@ export default function Profile(): React.JSX.Element {
   });
 
   const handleSave = () => {
-    updateUser(formData);
+    updateUser(0,formData);
     setIsEditing(false);
     notifySuccess('Профиль обновлен');
   };

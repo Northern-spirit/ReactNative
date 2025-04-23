@@ -242,4 +242,5 @@ export const userData = {
   firstName: 'Александр',
   lastName: 'Грехов',
   email: 'btld_grekhov@mail.ru',
+  password: ''
 };

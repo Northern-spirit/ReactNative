@@ -18,6 +18,10 @@ export default function Login() {
     }
   };
 
+  const registerNavigate = () => {
+    navigation.navigate('Register' as never);
+  }
+
   return (
     <View style={styles.container}>
       <Modal
@@ -55,6 +59,7 @@ export default function Login() {
         <Text style={styles.buttonText}>Login</Text>
 
       </TouchableOpacity>
+      <Text style={styles.wrapperText}>You don't have account? Register right <Text onPress={()=>registerNavigate()} style={styles.textLink}>now!</Text></Text>
     </View>
   );
 }
@@ -70,6 +75,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+  },
+  wrapperText: {
+    marginTop: 20
+  },
+  textLink: {
+    color: 'blue',
   },
   input: {
     height: 40,
