@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
-import { PromoCardItemProps } from '../types/types';
+import { PromoCardItemProps, Product } from '../types/types';
 import { useStore } from '../store';
 import { useNotifications } from '../hooks/useNotifications';
 
@@ -13,14 +13,15 @@ export const PromoCard: React.FC<Props> = ({ itemCard }) => {
   const { notifySuccess } = useNotifications();
 
   const handleAddToCart = () => {
-    const cartItem = {
+    const cartItem: Product = {
       id: itemCard.id,
       name: itemCard.title,
       price: itemCard.price,
       image: [itemCard.img],
       description: itemCard.text,
       rating: 5,
-      reviews: []
+      reviews: [],
+      type: 'promo'
     };
     addToCart(cartItem);
     notifySuccess('Акция добавлена в корзину');

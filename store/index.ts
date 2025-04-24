@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { ProducstStoreState } from '../types/types';
 import { products } from '../constants/MockData'
 
+
 export const useStore = create<ProducstStoreState>((set) => ({
     products: products,
     cart: [],
@@ -17,7 +18,7 @@ export const useStore = create<ProducstStoreState>((set) => ({
             if (existingItem) {
                 return {
                     cart: state.cart.map((item) =>
-                        item.id === product.id
+                        item.id === product.id && item.quantity !== undefined 
                             ? { ...item, quantity: item.quantity + 1 }
                             : item
                     ),
@@ -37,4 +38,18 @@ export const useStore = create<ProducstStoreState>((set) => ({
         })),
     setLoading: (loading) => set({ isLoading: loading }),
     clearCart: () => set({ cart: [] }),
+    addProduct: (product) =>
+        set((state) => ({
+            products: [...state.products, product],
+        })),
+    updateProduct: (id, updatedProduct) =>
+        set((state) => ({
+            products: state.products.map((product) =>
+                product.id === id ? { ...product, ...updatedProduct } : product
+            ),
+        })),
+    removeProduct: (id) =>
+        set((state) => ({
+            products: state.products.filter((product) => product.id !== id),
+        })),
 }));

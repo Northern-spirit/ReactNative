@@ -8,7 +8,14 @@ import { Notifications } from "../../components/Notifications";
 import { useNotifications } from '../../hooks/useNotifications';
 import { Product, ProducstStoreState } from '../../types/types'
 
-type Props = NativeStackScreenProps<RootStackParamList, 'ProductDetail'>;
+interface Props {
+  route: {
+    params: {
+      id: string;
+    };
+  };
+  navigation: any; // Можно заменить на более точный тип из @react-navigation/native
+}
 
 export default function ProductDetail({ route, navigation }: Props): React.JSX.Element {
   const { id } = route.params;

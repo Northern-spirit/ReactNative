@@ -217,6 +217,7 @@ export const promoCard = [
         img: 'https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/63340ee7e9a8174d42056bd8_SimpleCoffee16763-222-p-500.jpg',
         title: 'Коферолл',
         text: 'Действует акция, при покупке "Коферолл" большой капучино в подарок',
+        description: 'Действует акция, при покупке "Коферолл" большой капучино в подарок',
         time: 24,
         price: 2
     },
@@ -225,6 +226,7 @@ export const promoCard = [
         img: 'https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/648050f8c155fed70c03d046_611680697b50ea273425f28b_SimpleCoffee16792-p-500.jpg',
         title: 'Кендвич',
         text: 'Действует акция, при покупке "Кендвич" средний американо в подарок',
+        description: 'Действует акция, при покупке "Коферолл" большой капучино в подарок',
         time: 24,
         price: 2
     },
@@ -233,6 +235,7 @@ export const promoCard = [
         img: 'https://cdn.prod.website-files.com/5f92b98ef775e43402afe27f/632eef43fc80c821e1fe3cb0_Polyakovfoto_Simple%20Coffee17887-p-500.jpg',
         title: 'Курасан с ветчиной',
         text: 'Действует акция, при покупке "Курсанан с ветчиной" большой раф в подарок',
+        description: 'Действует акция, при покупке "Коферолл" большой капучино в подарок',
         time: 24,
         price: 2
     },

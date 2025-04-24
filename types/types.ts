@@ -1,33 +1,38 @@
+export interface Review {
+    id: number;
+    userName: string;
+    text: string;
+}
+
 export interface Product {
     id: number;
     name: string;
-    type: string,
+    type: string;
     price: number;
     description: string;
     image: string[];
     rating: number;
-    reviews: {
-        id: number;
-        userName: string;
-        text: string;
-    }[];
+    reviews: Review[];
+    quantity?: number; // Опциональное поле для корзины
 }
-
 export interface CartItem extends Product {
     quantity: number;
 }
 
 export interface ProducstStoreState {
     products: Product[];
-    cart: CartItem[];
+    cart: Product[];
     isLoading: boolean;
     count: number;
+    addCount: (element: number) => void;
     addToCart: (product: Product) => void;
     removeFromCart: (productId: number) => void;
     updateQuantity: (productId: number, quantity: number) => void;
     setLoading: (loading: boolean) => void;
-    addCount: (element: number) => void;
     clearCart: () => void;
+    addProduct: (product: Product) => void;
+    updateProduct: (id: number, updatedProduct: Partial<Product>) => void;
+    removeProduct: (id: number) => void;
 }
 
 export type NotificationType = 'success' | 'error';
@@ -44,15 +49,25 @@ export interface NotificationState {
 
 export interface PromoCardItemProps {
     id: number;
-    img: string;
     title: string;
     text: string;
+    description: string;
+    img: string;
     time: number;
-    price: number
+    price: number;
 }
 
-export interface PromoCardProps {
+export interface Props {
+    itemCard: PromoCardItemProps;
+}
+
+export interface PromoStore {
     promoCard: PromoCardItemProps[];
-    addPromoCard: (promoCard: PromoCardItemProps) => void;
-    removePromoCard: (idPromoCard: number) => void;
+    addPromoCard: (card: Omit<PromoCardItemProps, "id">) => void;
+    removePromoCard: (id: number) => void;
+    updatePromoCard: (id: number, card: Partial<PromoCardItemProps>) => void;
+}
+
+export interface ProductsTabProps {
+    product: Product;
 }
