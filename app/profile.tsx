@@ -15,10 +15,11 @@ export default function Profile(): React.JSX.Element {
   });
 
   const handleSave = () => {
-    updateUser(0,formData);
+    updateUser(0, formData);
     setIsEditing(false);
     notifySuccess('Профиль обновлен');
   };
+
 
   return (
     <View style={styles.root}>
@@ -36,7 +37,7 @@ export default function Profile(): React.JSX.Element {
                 {formData.firstName[0]}{formData.lastName[0]}
               </Text>
             </View>
-            
+
             {isEditing ? (
               <>
                 <TextInput
@@ -64,10 +65,10 @@ export default function Profile(): React.JSX.Element {
               </>
             ) : (
               <>
-                <Text style={styles.name}>{firstName} {lastName}</Text>
-                <Text style={styles.email}>{email}</Text>
-                <TouchableOpacity 
-                  style={styles.button} 
+                <Text style={styles.name}>{formData.firstName} {formData.lastName}</Text>
+                <Text style={styles.email}>{formData.email}</Text>
+                <TouchableOpacity
+                  style={styles.button}
                   onPress={() => setIsEditing(true)}
                 >
                   <Text style={styles.buttonText}>Редактировать</Text>

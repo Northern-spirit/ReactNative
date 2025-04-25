@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { usePromoCard } from '../store/promoCard';
 import { styles } from './adminStyles';
 import { PromoCardItemProps } from '../types/types';
@@ -23,8 +23,8 @@ export const PromosTab: React.FC = () => {
     setEditingPromoId(promo.id);
     setForm({
       title: promo.title,
-      description: promo.description || '',
-      image: promo.img,
+      description: promo.text || promo.description || '',
+      image: promo.img || '',
     });
   };
 
@@ -34,7 +34,14 @@ export const PromosTab: React.FC = () => {
       return;
     }
     if (editingPromoId !== null) {
-      updatePromoCard(editingPromoId, form);
+      updatePromoCard(editingPromoId, {
+        title: form.title,
+        text: form.description,
+        description: form.description,
+        img: form.image,
+        time: 24,
+        price: 0,
+      });
       setEditingPromoId(null);
       setForm({ title: '', description: '', image: '' });
     }
@@ -103,6 +110,12 @@ export const PromosTab: React.FC = () => {
               <>
                 <Text style={styles.itemTitle}>{item.title}</Text>
                 <Text style={styles.itemDescription} numberOfLines={2}>{item.description}</Text>
+                {item.img && (
+                  <Image
+                    style={styles.imagePreview}
+                    source={{ uri: item.img }}
+                  />
+                )}
                 <View style={styles.row}>
                   <TouchableOpacity style={styles.editButton} onPress={() => startEdit(item)}>
                     <Text style={styles.buttonText}>Редактировать</Text>

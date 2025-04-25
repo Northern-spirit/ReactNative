@@ -15,7 +15,13 @@ export const usePromoCard = create<PromoStore>((set) => ({
   updatePromoCard: (id, updatedCard) =>
     set((state) => ({
       promoCard: state.promoCard.map((card) =>
-        card.id === id ? { ...card, ...updatedCard } : card
+        card.id === id 
+          ? { 
+              ...card, 
+              ...updatedCard,
+              img: updatedCard.img || card.img,
+            } 
+          : card
       ),
     })),
 }));

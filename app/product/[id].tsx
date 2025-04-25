@@ -40,7 +40,6 @@ export default function ProductDetail({ route, navigation }: Props): React.JSX.E
     product.image,
   ];
 
-  console.log(images)
 
   const renderStars = (rating: number) => {
     const stars = [];
@@ -73,7 +72,7 @@ export default function ProductDetail({ route, navigation }: Props): React.JSX.E
             setCurrentImageIndex(index);
           }}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => setSelectedImage(item[0])}>
+            <TouchableOpacity style={{height: 400}} onPress={() => setSelectedImage(item[0])}>
               <Image source={{ uri: item[0] }} style={styles.image} />
             </TouchableOpacity>
           )}

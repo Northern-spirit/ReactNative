@@ -68,4 +68,10 @@ export const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 8,
   },
+  imagePreview: {
+    width: 100,
+    height: 100,
+    marginVertical: 5,
+    borderRadius: 5,
+  }
 }); 

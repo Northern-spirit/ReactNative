@@ -29,7 +29,7 @@ export const useUser = create<UserState>((set) => ({
   password: userData.password,
   users: [
     {
-      id: 1,
+      id: 0,
       firstName: 'Александр',
       lastName: 'Грехов',
       email: 'btld_grekhov@mail.com',

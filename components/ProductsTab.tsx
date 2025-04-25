@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { useStore } from '../store';
 import { styles } from './adminStyles';
 import { Product } from '../types/types';
@@ -32,7 +32,7 @@ export const ProductsTab: React.FC = () => {
       type: product.type,
       price: product.price,
       description: product.description,
-      image: Array.isArray(product.image) ? [product.image[0]] : product.image,
+      image: Array.isArray(product.image) ? product.image : [''],
     });
   };
 
@@ -47,7 +47,7 @@ export const ProductsTab: React.FC = () => {
         type: form.type,
         price: Number(form.price),
         description: form.description,
-        image: form.image,
+        image: [form.image[0]],
       });
       setEditingProductId(null);
       setForm({
@@ -81,7 +81,7 @@ export const ProductsTab: React.FC = () => {
       type: form.type,
       price: Number(form.price),
       description: form.description,
-      image: form.image,
+      image: [form.image[0]]
     });
     setForm({
       id: 0,
@@ -122,9 +122,9 @@ export const ProductsTab: React.FC = () => {
                   style={styles.input}
                   placeholder="Цена"
                   value={form.price.toString()}
-                  onChangeText={(text) => 
+                  onChangeText={(text) =>
                     setForm(f => ({
-                      ...f, 
+                      ...f,
                       price: Number(text.replace(/[^0-9]/g, ''))
                     }))
                   }
@@ -139,7 +139,7 @@ export const ProductsTab: React.FC = () => {
                 <TextInput
                   style={styles.input}
                   placeholder="URL изображения"
-                  value={''}
+                  value={form.image[0]}
                   onChangeText={(text) => setForm((f) => ({ ...f, image: [text] }))}
                 />
                 <View style={styles.row}>
@@ -154,6 +154,12 @@ export const ProductsTab: React.FC = () => {
             ) : (
               <>
                 <Text>{item.name} ({item.type}) - {item.price} ₽</Text>
+                {item.image[0] && (
+                  <Image
+                    style={styles.imagePreview}
+                    source={{ uri: item.image[0] }}
+                  />
+                )}
                 <Text numberOfLines={1}>{item.description}</Text>
                 <View style={styles.row}>
                   <TouchableOpacity style={styles.editButton} onPress={() => startEdit(item)}>
@@ -188,9 +194,9 @@ export const ProductsTab: React.FC = () => {
             style={styles.input}
             placeholder="Цена"
             value={form.price.toString()}
-            onChangeText={(text) => 
+            onChangeText={(text) =>
               setForm(f => ({
-                ...f, 
+                ...f,
                 price: Number(text.replace(/[^0-9]/g, ''))
               }))
             }
@@ -205,7 +211,7 @@ export const ProductsTab: React.FC = () => {
           <TextInput
             style={styles.input}
             placeholder="URL изображения"
-            value={''}
+            value={form.image[0] || ''}
             onChangeText={(text) => setForm((f) => ({ ...f, image: [text] }))}
           />
           <TouchableOpacity style={styles.addButton} onPress={addNewProduct}>
@@ -216,3 +222,4 @@ export const ProductsTab: React.FC = () => {
     </View>
   );
 }; 
+
