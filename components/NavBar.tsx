@@ -9,6 +9,7 @@ type IoniconName = ComponentProps<typeof Ionicons>['name'];
 const NAV_ITEMS: { label: string; icon: IoniconName; route: string }[] = [
   { label: 'Меню', icon: 'restaurant-outline', route: 'Home' },
   { label: 'Акции и бонусы', icon: 'pricetag-outline', route: 'Promotions' },
+  { label: 'Крафт кофе', icon: 'cafe', route: 'CraftCoffee' },
   { label: 'Карта кофеен', icon: 'map-outline', route: 'Map' },
   { label: 'О нас', icon: 'information-circle-outline', route: 'About' },
 ];
@@ -30,7 +31,7 @@ export const NavBar: React.FC = () => {
           onPress={() => navigateTo(route)}
         >
           <View style={styles.iconWrapper}>
-            <Ionicons name={icon} size={24} color="#6B3B1A" />
+            <Ionicons name={icon} size={30} color="#6B3B1A" />
           </View>
           <Text style={styles.navText}>{label}</Text>
         </TouchableOpacity>

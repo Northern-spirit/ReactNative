@@ -16,6 +16,7 @@ interface Screens {
   profile: ScreenComponent;
   register: ScreenComponent;
   adminPage: ScreenComponent;
+  craftCoffee: ScreenComponent;
 }
 
 export type RootStackParamList = {
@@ -29,6 +30,7 @@ export type RootStackParamList = {
   Profile: undefined;
   Register: undefined;
   AdminPage: undefined;
+  CraftCoffee: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -50,6 +52,7 @@ export default function Layout() {
         profileScreen,
         registerScreen,
         adminPageScreen,
+        craftCoffeeScreen,
       ] = await Promise.all([
         import('./login'),
         import('./home'),
@@ -61,6 +64,7 @@ export default function Layout() {
         import('./profile'),
         import('./register'),
         import('./adminPage'),
+        import('./craftCoffee')
       ]);
 
       setScreens({
@@ -73,7 +77,8 @@ export default function Layout() {
         about: aboutScreen.default,
         profile: profileScreen.default,
         register: registerScreen.default,
-        adminPage: adminPageScreen.default
+        adminPage: adminPageScreen.default,
+        craftCoffee: craftCoffeeScreen.default
       });
       setIsReady(true);
     }
@@ -105,6 +110,7 @@ export default function Layout() {
         <RootStack.Screen name="Profile" component={screens.profile} />
         <RootStack.Screen name="Register" component={screens.register} />
         <RootStack.Screen name="AdminPage" component={screens.adminPage} />
+        <RootStack.Screen name="CraftCoffee" component={screens.craftCoffee} />
       </RootStack.Navigator>
   );
 }
