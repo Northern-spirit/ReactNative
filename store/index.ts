@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ProducstStoreState } from '../types/types';
+import { ProducstStoreState, CartItem, Product } from '../types/types';
 import { products } from '../constants/MockData'
 
 
@@ -12,19 +12,29 @@ export const useStore = create<ProducstStoreState>((set) => ({
         set((state) => ({
             count: state.count + element,
         })),
-    addToCart: (product) =>
+    addToCart: (product: Product) =>
         set((state) => {
-            const existingItem = state.cart.find((item) => item.id === product.id);
+            const existingItem = state.cart.find(
+                (item) => item.id === product.id && item.type === product.type
+            );
+
             if (existingItem) {
                 return {
                     cart: state.cart.map((item) =>
-                        item.id === product.id && item.quantity !== undefined 
-                            ? { ...item, quantity: item.quantity + 1 }
-                            : item
+                        item.id === product.id && item.type === product.type
+                          ? { ...item, quantity: item.quantity + 1 }
+                          : item
                     ),
                 };
             }
-            return { cart: [...state.cart, { ...product, quantity: 1 }] };
+
+            const newCartItem: CartItem = {
+                ...product,
+                quantity: 1,
+            };
+            return { 
+                cart: [...state.cart, newCartItem]
+            };
         }),
     removeFromCart: (productId) =>
         set((state) => ({

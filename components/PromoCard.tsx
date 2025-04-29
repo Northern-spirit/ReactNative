@@ -16,12 +16,16 @@ export const PromoCard: React.FC<Props> = ({ itemCard }) => {
     const cartItem: Product = {
       id: itemCard.id,
       name: itemCard.title,
+      type: 'promo',
       price: itemCard.price,
       image: [itemCard.img],
-      description: itemCard.text,
+      description: itemCard.text || itemCard.description || '',
       rating: 5,
       reviews: [],
-      type: 'promo'
+      promoInfo: {
+        time: itemCard.time,
+        originalId: itemCard.id
+      }
     };
     addToCart(cartItem);
     notifySuccess('Акция добавлена в корзину');
@@ -29,11 +33,15 @@ export const PromoCard: React.FC<Props> = ({ itemCard }) => {
 
   return (
     <View style={styles.wrapper}>
-      <Image source={{ uri: itemCard.img }} style={styles.image} />
+      <Image 
+        source={{ uri: itemCard.img }} 
+        style={styles.image}
+      />
       <View style={styles.content}>
         <Text style={styles.title}>{itemCard.title}</Text>
         <Text style={styles.text}>{itemCard.text}</Text>
         <View style={styles.footer}>
+          <Text style={styles.price}>{itemCard.price} ₽</Text>
           <Text style={styles.time}>Действует {itemCard.time} часа</Text>
           <TouchableOpacity 
             style={styles.addButton}
@@ -86,6 +94,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 12,
+  },
+  price: {
+    fontSize: 14,
+    color: '#6B3B1A',
+    fontWeight: 'bold',
   },
   time: {
     fontSize: 14,

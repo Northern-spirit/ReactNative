@@ -13,15 +13,19 @@ export interface Product {
     image: string[];
     rating: number;
     reviews: Review[];
-    quantity?: number; // Опциональное поле для корзины
+    promoInfo?: {
+        time: number;
+        originalId: number;
+    };
 }
+
 export interface CartItem extends Product {
     quantity: number;
 }
 
 export interface ProducstStoreState {
     products: Product[];
-    cart: Product[];
+    cart: CartItem[];
     isLoading: boolean;
     count: number;
     addCount: (element: number) => void;
@@ -31,7 +35,7 @@ export interface ProducstStoreState {
     setLoading: (loading: boolean) => void;
     clearCart: () => void;
     addProduct: (product: Product) => void;
-    updateProduct: (id: number, updatedProduct: Partial<Product>) => void;
+    updateProduct: (id: number, product: Partial<Product>) => void;
     removeProduct: (id: number) => void;
 }
 
@@ -51,7 +55,7 @@ export interface PromoCardItemProps {
     id: number;
     title: string;
     text: string;
-    description: string;
+    description?: string;
     img: string;
     time: number;
     price: number;
@@ -70,4 +74,25 @@ export interface PromoStore {
 
 export interface ProductsTabProps {
     product: Product;
+}
+
+export interface CraftCoffeeOptions {
+  base: 'water' | 'milk' | 'coconut_milk';
+  coffeeType: string;
+  syrups: string[];
+  additions: {
+    cinnamon: boolean;
+    sugar: boolean;
+  };
+  size: 250 | 400 | 690;
+}
+
+export interface CraftCoffeeState {
+  options: CraftCoffeeOptions;
+  setBase: (base: CraftCoffeeOptions['base']) => void;
+  setCoffeeType: (type: string) => void;
+  toggleSyrup: (syrup: string) => void;
+  toggleAddition: (addition: keyof CraftCoffeeOptions['additions']) => void;
+  setSize: (size: CraftCoffeeOptions['size']) => void;
+  resetOptions: () => void;
 }
