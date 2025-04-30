@@ -50,9 +50,9 @@ export default function Cart() {
               style={styles.quantityButton}
               onPress={() => {
                 if ((item.quantity || 1) > 1) {
-                  updateQuantity(item.id, (item.quantity || 1) - 1);
+                  updateQuantity(item.id.toString(), (item.quantity || 1) - 1);
                 } else {
-                  removeFromCart(item.id);
+                  removeFromCart(item.id.toString());
                 }
               }}
             >
@@ -61,7 +61,7 @@ export default function Cart() {
             <Text style={styles.quantity}>{item.quantity || 1}</Text>
             <TouchableOpacity 
               style={styles.quantityButton}
-              onPress={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
+              onPress={() => updateQuantity(item.id.toString(), (item.quantity || 1) + 1)}
             >
               <Text style={styles.quantityButtonText}>+</Text>
             </TouchableOpacity>

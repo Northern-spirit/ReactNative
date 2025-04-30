@@ -5,6 +5,7 @@ import { ConfirmationModal } from '../components/ConfirmationModal';
 import { products } from '../constants/MockData';
 import { CraftCoffeeOptions } from '../types/types';
 import { useNavigation } from '@react-navigation/native';
+import { useStore } from '../store';
 
 const BASES = [
   { id: 'water', name: 'Вода' },
@@ -26,6 +27,7 @@ export default function CraftCoffee() {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const { options, setBase, setCoffeeType, toggleSyrup, toggleAddition, setSize, resetOptions } = useCraftCoffee();
+  const setIsBrewing = useStore((state) => state.setIsBrewing);
 
   const coffeeTypes = products.filter(p => p.type === 'coffee');
 
@@ -39,7 +41,8 @@ export default function CraftCoffee() {
 
   const handleConfirm = () => {
     setModalVisible(false);
-    navigation.navigate('Home' as never)
+    setIsBrewing(true);
+    navigation.navigate('Home' as never);
     resetOptions();
   };
 
@@ -89,7 +92,7 @@ export default function CraftCoffee() {
               ]}
               onPress={() => toggleSyrup(syrup)}
             >
-              <Text style={[styles.optionText,options.syrups.includes(syrup) && styles.selectedText]}>{syrup}</Text>
+              <Text style={[styles.optionText, options.syrups.includes(syrup) && styles.selectedText]}>{syrup}</Text>
             </TouchableOpacity>
           ))}
         </View>

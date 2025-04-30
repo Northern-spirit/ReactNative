@@ -2,8 +2,25 @@ import { create } from 'zustand';
 import { ProducstStoreState, CartItem, Product } from '../types/types';
 import { products } from '../constants/MockData'
 
+interface StoreState {
+    products: typeof products;
+    cart: CartItem[];
+    isLoading: boolean;
+    count: number;
+    addCount: (element: number) => void;
+    addToCart: (product: Product) => void;
+    removeFromCart: (productId: string) => void;
+    updateQuantity: (productId: string, quantity: number) => void;
+    setLoading: (loading: boolean) => void;
+    clearCart: () => void;
+    addProduct: (product: Product) => void;
+    updateProduct: (id: string, updatedProduct: Partial<Product>) => void;
+    removeProduct: (id: string) => void;
+    isBrewing: boolean;
+    setIsBrewing: (isBrewing: boolean) => void;
+}
 
-export const useStore = create<ProducstStoreState>((set) => ({
+export const useStore = create<StoreState>((set) => ({
     products: products,
     cart: [],
     isLoading: false,
@@ -62,4 +79,6 @@ export const useStore = create<ProducstStoreState>((set) => ({
         set((state) => ({
             products: state.products.filter((product) => product.id !== id),
         })),
+    isBrewing: false,
+    setIsBrewing: (isBrewing) => set({ isBrewing }),
 }));

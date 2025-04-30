@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
-import { useNotifications } from '../hooks/useNotifications';
+import { View, Text, Modal, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { useNotifications } from '../store/notifications';
 
 interface Props {
   visible: boolean;
@@ -10,7 +10,7 @@ interface Props {
 
 export const ConfirmationModal: React.FC<Props> = ({ visible, onConfirm, onCancel }) => {
   const [countdown, setCountdown] = useState(3);
-  const { notifySuccess } = useNotifications();
+  const { addNotification } = useNotifications();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -25,7 +25,7 @@ export const ConfirmationModal: React.FC<Props> = ({ visible, onConfirm, onCance
 
   const handleConfirm = () => {
     onConfirm();
-    notifySuccess('Готовка кофе начата!');
+    addNotification('Готовка кофе начата!');
   };
 
   return (
@@ -79,11 +79,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: '#8E8E93',
+    backgroundColor: '#8B7355',
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
 }); 

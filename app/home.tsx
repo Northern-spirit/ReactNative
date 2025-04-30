@@ -6,6 +6,7 @@ import { NavBar } from '../components/NavBar';
 import { ProductCard } from '../components/ProductCard';
 import { useStore } from '../store';
 import { Notifications } from "../components/Notifications"
+import { CoffeeBrewingAnimation } from '../components/CoffeeBrewingAnimation';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -22,6 +23,8 @@ export default function Home() {
   const navigation = useNavigation();
   const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].type);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const isBrewing = useStore((state) => state.isBrewing);
+  const setIsBrewing = useStore((state) => state.setIsBrewing);
   const flatListRef = useRef<FlatList>(null);
 
   const filteredProducts = products.filter(item => {
@@ -43,125 +46,97 @@ export default function Home() {
     setActiveCategory(categoryType);
   };
 
+  const handleBrewingComplete = () => {
+    setIsBrewing(false);
+  };
+
   return (
-    <View style={styles.root}>
-      <Image
-        source={require("../assets/images/background.jpeg")}
-        style={StyleSheet.absoluteFillObject}
-        resizeMode="cover"
-      />
+    <View style={styles.container}>
       <SafeAreaView style={styles.safe}>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <SearchBar onSearch={setSearchQuery} />
-            <View style={styles.headerIcons}>
-              <CartIcon />
-              <TouchableOpacity
-                style={styles.profileIcon}
-                onPress={() => navigation.navigate('Profile' as never)}
-              >
-                <Ionicons name="person-outline" size={24} color="#6B3B1A" />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.categories}>
-            {CATEGORIES.map(category => (
-              <TouchableOpacity
-                key={category.type}
-                style={[
-                  styles.categoryButton,
-                  activeCategory === category.type && styles.activeCategoryButton
-                ]}
-                onPress={() => changeCategory(category.type)}
-              >
-                <Text style={[
-                  styles.categoryText,
-                  activeCategory === category.type && styles.activeCategoryText
-                ]}>
-                  {category.title}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <FlatList
-            style={{ margin: 15 }}
-            ref={flatListRef}
-            data={filteredProducts}
-            renderItem={({ item }) => <ProductCard product={item} />}
-            keyExtractor={(item) => item.id.toString()}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
-            getItemLayout={(data, index) => ({
-              length: 200, // высота каждого элемента
-              offset: 200 * index,
-              index,
-            })}
-          />
-          {showScrollTop && (
-            <TouchableOpacity
-              style={styles.scrollTopButton}
-              onPress={scrollToTop}
-            >
-              <Ionicons name="arrow-up" size={24} color="white" />
-            </TouchableOpacity>
-          )}
+        <View style={styles.header}>
+          <SearchBar onSearch={setSearchQuery} />
+          <CartIcon />
         </View>
-        <NavBar />
+
+        <View style={styles.categories}>
+          {CATEGORIES.map((category) => (
+            <TouchableOpacity
+              key={category.type}
+              style={[
+                styles.categoryButton,
+                activeCategory === category.type && styles.activeCategory,
+              ]}
+              onPress={() => changeCategory(category.type)}
+            >
+              <Text
+                style={[
+                  styles.categoryText,
+                  activeCategory === category.type && styles.activeCategoryText,
+                ]}
+              >
+                {category.title}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <FlatList
+          ref={flatListRef}
+          data={filteredProducts}
+          renderItem={({ item }) => <ProductCard product={item} />}
+          keyExtractor={(item) => item.id.toString()}
+          onScroll={handleScroll}
+          showsVerticalScrollIndicator={false}
+        />
+
+        {showScrollTop && (
+          <TouchableOpacity style={styles.scrollTopButton} onPress={scrollToTop}>
+            <Ionicons name="arrow-up" size={24} color="white" />
+          </TouchableOpacity>
+        )}
+
+        <CoffeeBrewingAnimation isVisible={isBrewing} onComplete={handleBrewingComplete} />
         <Notifications />
+        <NavBar />
       </SafeAreaView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: {
+  container: {
     flex: 1,
-    position: 'relative',
-    backgroundColor: 'black', // fallback
+    backgroundColor: '#F5E6D3',
   },
   safe: {
     flex: 1,
   },
-  container: {
-    flex: 1,
-    // backgroundColor: 'rgba(255,255,255,0.7)',
-  },
   header: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    borderRadius: 10,
-    margin: 10,
-  },
-  headerIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profileIcon: {
-    marginLeft: 5,
-  },
-  list: {
-    padding: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   categories: {
     flexDirection: 'row',
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    marginBottom: 16,
   },
   categoryButton: {
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
     marginRight: 8,
-    backgroundColor: '#F5E6D3',
+    backgroundColor: 'white',
   },
-  activeCategoryButton: {
+  activeCategory: {
     backgroundColor: '#6B3B1A',
   },
   categoryText: {
     color: '#6B3B1A',
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: '500',
   },
   activeCategoryText: {
     color: 'white',
@@ -169,14 +144,21 @@ const styles = StyleSheet.create({
   scrollTopButton: {
     position: 'absolute',
     right: 16,
-    bottom: 90,
+    bottom: 80,
     backgroundColor: '#6B3B1A',
     width: 40,
     height: 40,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
 

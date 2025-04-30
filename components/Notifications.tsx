@@ -1,22 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
-import { useNotificationStore } from '../store/notification';
+import { useNotifications } from '../store/notifications';
 
 export const Notifications: React.FC = () => {
-  const notifications = useNotificationStore((state) => state.notifications);
+  const { notifications, removeNotification } = useNotifications();
+  const opacity = new Animated.Value(0);
+
+  useEffect(() => {
+    if (notifications.length > 0) {
+      Animated.sequence([
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.delay(2000),
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        removeNotification(notifications[0].id);
+      });
+    }
+  }, [notifications]);
+
+  if (notifications.length === 0) return null;
 
   return (
-    <View style={styles.container} pointerEvents="box-none">
-      {notifications.map((notification, index) => (
-        <View
-          key={index}
-          style={[
-            styles.notification,
-            notification.type === 'success' ? styles.success : styles.error,
-          ]}
+    <View style={styles.container}>
+      {notifications.map((notification) => (
+        <Animated.View
+          key={notification.id}
+          style={[styles.notification, { opacity }]}
         >
-          <Text style={styles.text}>{notification.text}</Text>
-        </View>
+          <Text style={styles.text}>{notification.message}</Text>
+        </Animated.View>
       ))}
     </View>
   );
@@ -24,33 +44,32 @@ export const Notifications: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
     position: 'absolute',
-    width: '100%',
+    top: 50,
+    left: 0,
+    right: 0,
     alignItems: 'center',
     zIndex: 1000,
-    pointerEvents: 'box-none',
   },
   notification: {
-    marginVertical: 5,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 10,
-    width: '90%',
+    backgroundColor: '#6B3B1A',
+    padding: 16,
+    borderRadius: 8,
+    marginHorizontal: 16,
+    marginBottom: 8,
     shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     elevation: 5,
   },
-  success: {
-    backgroundColor: '#A7D1AB',
-  },
-  error: {
-    backgroundColor: '#E07A5F',
-  },
   text: {
-    color: '#FAFAFA',
+    color: 'white',
     fontSize: 16,
+    fontWeight: '500',
+    textAlign: 'center',
   },
 });
