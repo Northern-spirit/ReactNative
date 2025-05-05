@@ -55,12 +55,12 @@ export const useStore = create<StoreState>((set) => ({
         }),
     removeFromCart: (productId) =>
         set((state) => ({
-            cart: state.cart.filter((item) => item.id !== productId),
+            cart: state.cart.filter((item) => item.id !== Number(productId)),
         })),
     updateQuantity: (productId, quantity) =>
         set((state) => ({
             cart: state.cart.map((item) =>
-                item.id === productId ? { ...item, quantity } : item
+                item.id === Number(productId) ? { ...item, quantity } : item
             ),
         })),
     setLoading: (loading) => set({ isLoading: loading }),
@@ -72,12 +72,12 @@ export const useStore = create<StoreState>((set) => ({
     updateProduct: (id, updatedProduct) =>
         set((state) => ({
             products: state.products.map((product) =>
-                product.id === id ? { ...product, ...updatedProduct } : product
+                product.id === Number(id) ? { ...product, ...updatedProduct } : product
             ),
         })),
     removeProduct: (id) =>
         set((state) => ({
-            products: state.products.filter((product) => product.id !== id),
+            products: state.products.filter((product) => product.id !== Number(id)),
         })),
     isBrewing: false,
     setIsBrewing: (isBrewing) => set({ isBrewing }),

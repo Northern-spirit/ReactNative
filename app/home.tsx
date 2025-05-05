@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   scrollTopButton: {
     position: 'absolute',
     right: 16,
-    bottom: 80,
+    bottom: 100,
     backgroundColor: '#6B3B1A',
     width: 40,
     height: 40,
